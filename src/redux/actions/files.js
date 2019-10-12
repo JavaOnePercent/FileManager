@@ -4,10 +4,12 @@ import {
 } from './types';
 
 const instance = axios.create({
-    headers: { 'Authorization': '' } // TODO <- need to add token
+    headers: { 'Authorization': process.env.TOKEN } // TODO <- need to add token
 });
 
 export const getFiles = (path) => dispatch => {
+    dispatch({ type: AGG_GET_FILES, payload: [] });
+
     instance.get('https://cloud-api.yandex.net/v1/disk/resources', {
         params: {
             path: path

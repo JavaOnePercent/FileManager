@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Path extends Component {
     constructor(props) {
@@ -8,8 +9,7 @@ class Path extends Component {
     }
 
     static propTypes = {
-        path: PropTypes.array.isRequired,
-        depth: PropTypes.number.isRequired
+        path: PropTypes.string.isRequired,
     }
 
     componentDidMount()
@@ -18,17 +18,18 @@ class Path extends Component {
     }
 
     render() {
-        const { path, depth } = this.props;
+        const { path } = this.props;
+        const pathParts = path.split('/');
         return (
             <div>
                 <Breadcrumb>
                 {
-                    path.map((item, index) => (
+                    pathParts.map((item, index) => (
                         (
-                            depth - 1 !== index ? (
-                                <BreadcrumbItem><a href={item.url}>{item.name}</a></BreadcrumbItem>
+                            pathParts.length -1 !== index ? (
+                                <BreadcrumbItem key={path + index}><Link to={pathParts.slice(0, index + 1).join('/')}>{(item) ? item : '>'}</Link></BreadcrumbItem>
                             ) : (
-                                <BreadcrumbItem active>{item.name}</BreadcrumbItem>
+                                <BreadcrumbItem key={path + index} active>{item}</BreadcrumbItem>
                             )
                         )
                     ))

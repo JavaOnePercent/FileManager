@@ -5,10 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     devtool: 'source-map',
     entry: "./src/index.js",
-
     output: {
         path: path.join(__dirname, "/dist"),
-        filename: "index-bundle.js"
+        publicPath: '/',
+        filename: "index-bundle.js",
     },
     module: {
         rules: [
@@ -19,12 +19,12 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options:
-                            {
-                                presets: ["@babel/preset-env", "@babel/preset-react"],
-                                plugins: [
-                                    ["@babel/plugin-proposal-class-properties", { "loose": true }]
-                                ]
-                            }
+                        {
+                            presets: ["@babel/preset-env", "@babel/preset-react"],
+                            plugins: [
+                                ["@babel/plugin-proposal-class-properties", { "loose": true }]
+                            ]
+                        }
                     }
                 ],
             },
@@ -38,5 +38,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html"
         })
-    ]
+    ],
+    devServer: {
+        contentBase: "./src",
+        historyApiFallback: true
+    },
 };

@@ -4,7 +4,7 @@ import {
 } from './types';
 
 const instance = axios.create({
-    headers: {'Authorization': ''} // TODO <- need to add token
+    headers: { 'Authorization': '' } // TODO <- need to add token
 });
 
 export const getFiles = (path) => dispatch => {
@@ -13,12 +13,10 @@ export const getFiles = (path) => dispatch => {
             path: path
         }
     }).then(function (response) {
-
         let files = response.data._embedded;
         console.log(files);
-        dispatch({type: AGG_GET_FILES, payload: files});
-    })
-        .catch(function (error) {
-            console.log(error)
-        });
+        dispatch({ type: AGG_GET_FILES, payload: files });
+    }).catch(function (error) {
+        console.log(error)
+    });
 };

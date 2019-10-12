@@ -8,44 +8,31 @@ import File from "./File";
 import { getFiles } from "../redux/actions/files";
 
 class App extends Component {
+    componentDidMount() {
+        const { onGetFiles, location: {pathname: path} } = this.props;
+        onGetFiles((path) ? path : '/');
+    }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            path: [
-                {
-                    url: 'name',
-                    name: 'name',
-                },
-                {
-                    url: 'name/title',
-                    name: 'title',
-                },
-                {
-                    url: 'name/title/dir',
-                    name: 'dir',
-                },
-            ],
-            depth: 3
+    componentDidUpdate(prevProps) {
+        const { onGetFiles, location: {pathname: path} } = this.props;
+        const { location: {pathname: prevPath} } = prevProps;
+
+        if (path != prevPath) {
+            onGetFiles(path);
         }
     }
 
-    componentDidMount() {
-        const { onGetFiles } = this.props;
-        onGetFiles('/');
-    }
-
     render() {
-        const { files } = this.props;
+        const { files, location: {pathname: path} } = this.props;
         return (
             <Provider store={store}>
                 <div>
                     <Header/>
-                    <Path path={this.state.path} depth={this.state.depth} />
+                    <Path path={path} />
                     {
                         files.items &&
                         files.items.map((item) => (
-                            <File name={item.name} type={item.type} mediaType={item.media_type}/>
+                            <File name={item.name} type={item.type} mediaType={item.media_type} path={path}/>
                         ))
                     }
                 </div>

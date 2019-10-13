@@ -1,1 +1,3 @@
-export const AGG_GET_FILES = 'AGG_GET_FILES';
+export const GET_FIRST_FILES = 'GET_FIRST_FILES';
+export const GET_NEXT_FILES = 'GET_NEXT_FILES';
+export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';

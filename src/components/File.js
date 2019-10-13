@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faFileAudio, faArchive, faBook, faFileArchive, faDatabase, faFileCode, faCompactDisc,
     faFileWord, faCode, faDiceFive, faPhotoVideo, faFont, faFileImage, faTools, faFileExcel,
-    faFileAlt, faFile, faVideo, faFileInvoice, faDirections, faFolder
+    faFileAlt, faFile, faVideo, faFileInvoice, faFolder
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
-import { getFilePreview } from "../redux/actions/files";
 
 const maxFileLength = 22;
 const icons = {
@@ -38,7 +37,8 @@ class File extends Component {
         path: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        mediaType: PropTypes.string
+        mediaType: PropTypes.string,
+        isLoading: PropTypes.bool.isRequired
     }
 
     getShortedName(type, name) {
@@ -58,16 +58,20 @@ class File extends Component {
     }
 
     render() {
-        const { path, name, type, mediaType } = this.props;
+        const { path, name, type, mediaType, isLoading } = this.props;
         return (
             <div className="d-inline-flex flex-column w-100 overflow-hidden">
                 <div className="d-inline-flex justify-content-center">
                     {type === 'dir' ? (
-                        <Link to={((path == '/') ? '' : path) + '/' + name}>
+                        !isLoading ? (
+                            <Link to={((path === '/') ? '' : path) + '/' + name}>
+                                <FontAwesomeIcon color="black" icon={icons[type]} size="4x"></FontAwesomeIcon>
+                            </Link>
+                        ) : (
                             <FontAwesomeIcon icon={icons[type]} size="4x"></FontAwesomeIcon>
-                        </Link>
+                        )
                     ) : (
-                        <FontAwesomeIcon icon={icons[(mediaType) ? mediaType : 'unknown']} size="4x"></FontAwesomeIcon>                      
+                        <FontAwesomeIcon icon={icons[(mediaType) ? mediaType : 'unknown']} size="4x"></FontAwesomeIcon>
                     )}
                 </div>
                 <div className="d-inline-flex justify-content-center w-100 py-2">{this.getShortedName(type, name)}</div>

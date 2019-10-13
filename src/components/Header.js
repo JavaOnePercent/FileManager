@@ -6,7 +6,7 @@ const Header = (props) => {
     return (
         <div>
             <Navbar color="primary" light expand="md">
-                <NavbarBrand href="/">FileManager</NavbarBrand>
+                <NavbarBrand href="/" className="text-light">FileManager</NavbarBrand>
             </Navbar>
         </div>
     );
